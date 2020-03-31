@@ -7,27 +7,24 @@ function App() {
     const [squares, setSquare] = useState(initState);
     const [count, setCount] = useState(true);
 
-
-
     const clickHandler = event => {
+
         const data = event.target.getAttribute('data');
         const currentSquares = [...squares];
 
         if (currentSquares[data] === null) {
             currentSquares[data] = count ? "X" : "O";
-            setCount(!count);
 
             setSquare(currentSquares);
+            setCount(!count);
 
-            console.log(squares)
-            console.log(currentSquares)
-
-            isWinner(currentSquares[data]);
+            isWinner(count ? "X" : "O");
+            setCount(!count);
         }
     }
 
-
     const isWinner = (s) => {
+        console.log(squares);
         const winnerLine = [
             [0,1,2],
             [3,4,5],
@@ -53,15 +50,18 @@ function App() {
 
     return (
         <div className="tic-tac-toe">
-            <div className="ttt-grid" onClick={clickHandler} data="0">{squares[0]}</div>
-            <div className="ttt-grid" onClick={clickHandler} data="1">{squares[1]}</div>
-            <div className="ttt-grid" onClick={clickHandler} data="2">{squares[2]}</div>
-            <div className="ttt-grid" onClick={clickHandler} data="3">{squares[3]}</div>
-            <div className="ttt-grid" onClick={clickHandler} data="4">{squares[4]}</div>
-            <div className="ttt-grid" onClick={clickHandler} data="5">{squares[5]}</div>
-            <div className="ttt-grid" onClick={clickHandler} data="6">{squares[6]}</div>
-            <div className="ttt-grid" onClick={clickHandler} data="7">{squares[7]}</div>
-            <div className="ttt-grid" onClick={clickHandler} data="8">{squares[8]}</div>
+            {
+                squares.map((item, index) => {
+                    return <div
+                        className="ttt-grid"
+                        onClick={clickHandler}
+                        data={index}
+                        key={index}
+                    >
+                        {item}
+                    </div>
+                })
+            }
         </div>
     )
 }
