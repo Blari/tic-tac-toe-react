@@ -2,29 +2,32 @@ import React, {useState} from 'react';
 import './App.css';
 
 function App() {
-    let initState = Array(9).fill(null);
 
-    const [squares, setSquare] = useState(initState);
+    const [squares, setSquare] = useState([{data: null},{data: null},{data: null},{data: null},{data: null},{data: null},{data: null},{data: null},{data: null}]);
     const [count, setCount] = useState(true);
 
     const clickHandler = event => {
 
         const data = event.target.getAttribute('data');
-        const currentSquares = [...squares];
 
-        if (currentSquares[data] === null) {
-            currentSquares[data] = count ? "X" : "O";
+        const currentSquares = [...squares];
+        console.log(currentSquares)
+        const x = count ? "X" : "O";
+
+        if (currentSquares[data].data === null) {
+            currentSquares[data].data = x;
 
             setSquare(currentSquares);
-            setCount(!count);
 
-            isWinner(count ? "X" : "O");
+
             setCount(!count);
+            isWinner(x);
         }
     }
 
+    //Расчет выигрышных комбинаций
+
     const isWinner = (s) => {
-        console.log(squares);
         const winnerLine = [
             [0,1,2],
             [3,4,5],
@@ -37,17 +40,16 @@ function App() {
         ]
         for (let i = 0; i < 8; i++) {
             let line = winnerLine[i];
-            if (squares[line[0]] === s
-                && squares[line[1]] === s
-                && squares[line[2]] === s) {
+            if (squares[line[0]].data === s
+                && squares[line[1]].data === s
+                && squares[line[2]].data === s) {
                 alert (s + ' win');
                 setTimeout(() => {
-                    setSquare(initState)
+                    setSquare([{data: null},{data: null},{data: null},{data: null},{data: null},{data: null},{data: null},{data: null},{data: null}])
                 }, 3000)
             }
         }
     }
-
     return (
         <div className="tic-tac-toe">
             {
@@ -58,7 +60,7 @@ function App() {
                         data={index}
                         key={index}
                     >
-                        {item}
+                        {item.data}
                     </div>
                 })
             }
